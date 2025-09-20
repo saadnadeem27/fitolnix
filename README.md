@@ -1,7 +1,5 @@
 # 🏋️‍♂️ Fitolnix - Professional Fitness & Wellness Platform
 
-<div align="center">
-
 [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
@@ -568,10 +566,6 @@ SOFTWARE.
 - 🍴 **Fork and contribute** to make it better
 - 📢 **Share with others** who might benefit
 
----
-
-<div align="center">
-
 ## 🏆 Acknowledgments
 
 Special thanks to the amazing open-source community and the incredible tools that made this project possible:
@@ -587,5 +581,3 @@ Special thanks to the amazing open-source community and the incredible tools tha
 **Built with ❤️ and cutting-edge technology**
 
 *Transforming fitness tracking with modern mobile development*
-
-</div>
