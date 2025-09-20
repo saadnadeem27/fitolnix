@@ -550,16 +550,12 @@ SOFTWARE.
 
 ### Developer Information
 - **👨‍💻 Developer**: Saad Nadeem
-- **📧 Email**: [saadnadeem@example.com](mailto:saadnadeem@example.com)
-- **🔗 LinkedIn**: [linkedin.com/in/saadnadeem](https://linkedin.com/in/saadnadeem)
-- **🌐 Portfolio**: [saadnadeem.dev](https://saadnadeem.dev)
+<!-- - **📧 Email**: [saadnadeem@example.com](mailto:saadnadeem@example.com) -->
+- **🔗 LinkedIn**: [linkedin.com/in/saadnadeem](https://www.linkedin.com/in/saad-nadeem-07-an-expert-flutter-developer/)
+<!-- - **🌐 Portfolio**: [saadnadeem.dev](https://saadnadeem.dev) -->
 - **🐙 GitHub**: [github.com/saadnadeem27](https://github.com/saadnadeem27)
 
-### Support Channels
-- 📋 **[Issues](https://github.com/saadnadeem27/fitolnix/issues)**: Bug reports and feature requests
-- 💬 **[Discussions](https://github.com/saadnadeem27/fitolnix/discussions)**: General discussions and Q&A
-- 📖 **[Documentation](https://github.com/saadnadeem27/fitolnix/wiki)**: Detailed documentation and guides
-- 🐛 **[Bug Reports](https://github.com/saadnadeem27/fitolnix/issues/new?template=bug_report.md)**: Structured bug reporting
+
 
 ### Community
 - 🌟 **Star this repository** if you find it helpful!
@@ -574,7 +570,6 @@ Special thanks to the amazing open-source community and the incredible tools tha
 - **Supabase Team** for the exceptional backend-as-a-service platform
 - **GetX Community** for the powerful state management solution
 - **Material Design Team** for the beautiful design system
-- **All Contributors** who helped shape this project
 
 ---
 
