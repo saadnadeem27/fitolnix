@@ -8,7 +8,7 @@
 
 *Enterprise-grade fitness application with cutting-edge UI/UX, real-time backend integration, and comprehensive wellness tracking*
 
-[📱 Live Demo](#) • [📖 Documentation](#features) • [🐛 Report Bug](https://github.com/saadnadeem27/fitolnix/issues) • [💡 Request Feature](https://github.com/saadnadeem27/fitolnix/issues)
+<!-- [📱 Live Demo](#) • [📖 Documentation](#features) • [🐛 Report Bug](https://github.com/saadnadeem27/fitolnix/issues) • [💡 Request Feature](https://github.com/saadnadeem27/fitolnix/issues) -->
 
 ---
 
