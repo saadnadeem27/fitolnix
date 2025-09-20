@@ -44,7 +44,10 @@ class GlassCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
-          width: width ?? double.infinity,
+          // If width is provided, use it; otherwise leave null so the
+          // Container sizes to its child and does not force an infinite
+          // constraint in unbounded parents (e.g. inside Row/Wrap).
+          width: width,
           // Do not set a fixed height here so the card sizes to its child.
           padding: padding ?? const EdgeInsets.all(16),
           decoration: BoxDecoration(

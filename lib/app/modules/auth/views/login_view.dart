@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 import '../../../widgets/custom_widgets.dart';
 import '../../../utils/theme.dart';
-import '../../home/views/home_view.dart';
 import 'signup_view.dart';
 
 class LoginView extends StatelessWidget {

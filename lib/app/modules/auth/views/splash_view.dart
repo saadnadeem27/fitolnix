@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import '../../../utils/theme.dart';
+import 'onboarding_view.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -69,9 +70,10 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
     await Future.delayed(const Duration(milliseconds: 800));
     _textController.forward();
 
-    // Navigate to onboarding after all animations
-    await Future.delayed(const Duration(milliseconds: 2000));
-    Get.offNamed('/onboarding');
+  // Navigate to onboarding after all animations (use direct navigation so
+  // we don't depend on named routes being registered)
+  await Future.delayed(const Duration(milliseconds: 2000));
+  Get.off(() => OnboardingView());
   }
 
   @override

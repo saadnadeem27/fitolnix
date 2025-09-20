@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../../../data/models/workout.dart';
 import '../../../utils/constants.dart';
+import '../views/workout_detail_view.dart';
 
 class WorkoutController extends GetxController {
   // Observable variables
@@ -293,7 +294,8 @@ class WorkoutController extends GetxController {
     currentWorkout.value = workout;
     currentExerciseIndex.value = 0;
     workoutStartTime.value = DateTime.now();
-    Get.toNamed('/workout-timer', arguments: workout);
+  // Navigate directly to the workout detail (which includes timer UI)
+  Get.to(() => WorkoutDetailView(), arguments: workout);
   }
 
   void startTimer(int seconds) {

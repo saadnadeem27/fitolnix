@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app/data/services/storage_service.dart';
-import 'app/routes/app_pages.dart';
 import 'app/utils/theme.dart';
+import 'app/modules/auth/views/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +21,10 @@ class FitolnixApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(AppTheme.darkTheme.textTheme),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
+      // Using a direct home widget so app runs even if route definitions
+      // (app_pages.dart) are not available. Navigation can still use
+      // direct constructors via Get.to(() => SomeView()).
+      home: SplashView(),
       defaultTransition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
     );

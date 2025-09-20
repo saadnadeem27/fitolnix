@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../../data/services/storage_service.dart';
 import '../../../data/models/user.dart';
-import '../../../routes/app_pages.dart';
 import '../views/login_view.dart';
 import '../../home/views/home_view.dart';
 

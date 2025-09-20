@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../controllers/workout_controller.dart';
 import '../../../widgets/custom_widgets.dart';
 import '../../../utils/theme.dart';
+import 'workout_detail_view.dart';
 
 class WorkoutListView extends StatelessWidget {
   const WorkoutListView({super.key});
@@ -268,7 +269,7 @@ class WorkoutListView extends StatelessWidget {
     return Hero(
       tag: 'workout-${workout.id}',
       child: GlassCard(
-        onTap: () => Get.toNamed('/workout-detail', arguments: workout),
+        onTap: () => Get.to(() => WorkoutDetailView(), arguments: workout),
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
