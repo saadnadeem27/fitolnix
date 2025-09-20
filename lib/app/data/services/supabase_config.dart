@@ -5,7 +5,7 @@ class SupabaseConfig {
     'SUPABASE_URL',
     defaultValue: 'https://your-project.supabase.co',
   );
-  
+
   static const String supabaseAnonKey = String.fromEnvironment(
     'SUPABASE_ANON_KEY',
     defaultValue: 'your-anon-key-here',
@@ -20,9 +20,9 @@ class SupabaseConfig {
   }
 
   static SupabaseClient get client => Supabase.instance.client;
-  
+
   static GoTrueClient get auth => client.auth;
-  
+
   static SupabaseQueryBuilder get users => client.from('users');
   static SupabaseQueryBuilder get workouts => client.from('workouts');
   static SupabaseQueryBuilder get exercises => client.from('exercises');

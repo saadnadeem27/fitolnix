@@ -8,7 +8,7 @@ import 'app/modules/auth/views/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize services
   await StorageService.init();
   await SupabaseConfig.initialize();
