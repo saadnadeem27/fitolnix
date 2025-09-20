@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app/data/services/storage_service.dart';
+import 'app/data/services/supabase_config.dart';
 import 'app/utils/theme.dart';
 import 'app/modules/auth/views/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize services
   await StorageService.init();
+  await SupabaseConfig.initialize();
 
   runApp(FitolnixApp());
 }
