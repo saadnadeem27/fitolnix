@@ -31,11 +31,12 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Only check navigation after splash screen if we're not on splash/onboarding routes
+    // Run navigation checks after the first frame. Do not rely on named
+    // route string comparisons (e.g. '/splash') — with direct Get.to navigation
+    // the current route may not be a named route. `checkFirstTime` will
+    // only navigate when appropriate based on storage state.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (Get.currentRoute != '/splash' && Get.currentRoute != '/onboarding') {
-        checkFirstTime();
-      }
+      checkFirstTime();
     });
   }
 

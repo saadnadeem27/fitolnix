@@ -70,10 +70,10 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
     await Future.delayed(const Duration(milliseconds: 800));
     _textController.forward();
 
-  // Navigate to onboarding after all animations (use direct navigation so
-  // we don't depend on named routes being registered)
-  await Future.delayed(const Duration(milliseconds: 2000));
-  Get.off(() => OnboardingView());
+    // Navigate to onboarding after all animations (use direct navigation so
+    // we don't depend on named routes being registered)
+    await Future.delayed(const Duration(milliseconds: 2000));
+    Get.off(() => OnboardingView());
   }
 
   @override

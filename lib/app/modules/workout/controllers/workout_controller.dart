@@ -294,8 +294,8 @@ class WorkoutController extends GetxController {
     currentWorkout.value = workout;
     currentExerciseIndex.value = 0;
     workoutStartTime.value = DateTime.now();
-  // Navigate directly to the workout detail (which includes timer UI)
-  Get.to(() => WorkoutDetailView(), arguments: workout);
+    // Navigate directly to the workout detail (which includes timer UI)
+    Get.to(() => WorkoutDetailView(), arguments: workout);
   }
 
   void startTimer(int seconds) {
