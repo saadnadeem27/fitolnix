@@ -6,6 +6,12 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../controllers/nutrition_controller.dart';
 import '../../../widgets/custom_widgets.dart';
 import '../../../utils/theme.dart';
+// local helper below to avoid extension name conflicts
+
+String _capitalize(String s) {
+  if (s.isEmpty) return s;
+  return s[0].toUpperCase() + s.substring(1);
+}
 
 class NutritionView extends StatelessWidget {
   final nutritionController = Get.put(NutritionController());
@@ -520,7 +526,7 @@ class NutritionView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            mealType.capitalize!,
+                            _capitalize(mealType),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -713,7 +719,7 @@ class NutritionView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  suggestion.mealType.capitalize!,
+                  _capitalize(suggestion.mealType),
                   style: const TextStyle(
                     color: AppColors.primary,
                     fontSize: 10,
@@ -887,7 +893,7 @@ class NutritionView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          mealType.capitalize!,
+                          _capitalize(mealType),
                           style: TextStyle(
                             color: nutritionController.selectedMealType.value ==
                                     mealType

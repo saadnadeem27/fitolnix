@@ -9,7 +9,7 @@ import '../../../utils/theme.dart';
 class HomeView extends StatelessWidget {
   final homeController = Get.put(HomeController());
 
-   HomeView({super.key});
+  HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -362,9 +362,11 @@ class HomeView extends StatelessWidget {
         Obx(() => GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.5,
+              // Use a max cross axis extent so the grid becomes single-column
+              // on narrow screens and prevents horizontal overflow.
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 300,
+                childAspectRatio: 1.4,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
@@ -385,7 +387,7 @@ class HomeView extends StatelessWidget {
         .toList();
 
     return GlassCard(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -569,8 +571,8 @@ class HomeView extends StatelessWidget {
 
   Widget _buildBottomNavigation() {
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      // margin: const EdgeInsets.all(16),
+      // padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -588,17 +590,22 @@ class HomeView extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // Use Expanded for each nav item so they share available width
+        // and avoid RenderFlex overflow on small screens.
         children: [
-          _buildNavItem(Icons.home, 'Home', true, () {}),
-          _buildNavItem(Icons.fitness_center, 'Workouts', false,
-              homeController.startQuickWorkout),
-          _buildNavItem(Icons.trending_up, 'Progress', false,
-              homeController.viewProgress),
-          _buildNavItem(Icons.restaurant, 'Nutrition', false,
-              homeController.trackNutrition),
-          _buildNavItem(
-              Icons.person, 'Profile', false, homeController.openProfile),
+          Expanded(child: _buildNavItem(Icons.home, 'Home', true, () {})),
+          Expanded(
+              child: _buildNavItem(Icons.fitness_center, 'Workouts', false,
+                  homeController.startQuickWorkout)),
+          Expanded(
+              child: _buildNavItem(Icons.trending_up, 'Progress', false,
+                  homeController.viewProgress)),
+          Expanded(
+              child: _buildNavItem(Icons.restaurant, 'Nutrition', false,
+                  homeController.trackNutrition)),
+          Expanded(
+              child: _buildNavItem(
+                  Icons.person, 'Profile', false, homeController.openProfile)),
         ],
       ),
     );
@@ -609,7 +616,7 @@ class HomeView extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: isSelected
             ? BoxDecoration(
                 gradient: LinearGradient(colors: AppColors.primaryGradient),
@@ -625,12 +632,20 @@ class HomeView extends StatelessWidget {
               size: 24,
             ),
             const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            // Prevent the label from wrapping to a second line on small screens.
+            // Use a constrained single line with ellipsis and slightly smaller font.
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 70),
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isSelected ? Colors.white : AppColors.textSecondary,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
               ),
             ),
           ],

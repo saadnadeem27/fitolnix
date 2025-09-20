@@ -9,7 +9,13 @@ import 'workout_detail_view.dart';
 class WorkoutListView extends StatelessWidget {
   const WorkoutListView({super.key});
 
-  WorkoutController get workoutController => Get.find<WorkoutController>();
+  WorkoutController get workoutController {
+    // Ensure controller is registered before returning. Use lazyPut if not found.
+    if (!Get.isRegistered<WorkoutController>()) {
+      Get.put(WorkoutController());
+    }
+    return Get.find<WorkoutController>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,20 +241,15 @@ class WorkoutListView extends StatelessWidget {
       }
 
       return AnimationLimiter(
-        child: GridView.builder(
+        child: ListView.builder(
           padding: const EdgeInsets.all(16),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
-            childAspectRatio: 2.5,
-            mainAxisSpacing: 16,
-          ),
+          shrinkWrap: true,
           itemCount: workoutController.filteredWorkouts.length,
           itemBuilder: (context, index) {
             final workout = workoutController.filteredWorkouts[index];
-            return AnimationConfiguration.staggeredGrid(
+            return AnimationConfiguration.staggeredList(
               position: index,
               duration: const Duration(milliseconds: 375),
-              columnCount: 1,
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
@@ -265,137 +266,188 @@ class WorkoutListView extends StatelessWidget {
   Widget _buildWorkoutCard(workout) {
     final categoryColor = workoutController.getCategoryColor(workout.category);
     final categoryIcon = workoutController.getCategoryIcon(workout.category);
-
     return Hero(
       tag: 'workout-${workout.id}',
-      child: GlassCard(
+      child: GestureDetector(
         onTap: () => Get.to(() => WorkoutDetailView(), arguments: workout),
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            // Category Icon
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [categoryColor, categoryColor.withOpacity(0.8)],
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Icon(
-                categoryIcon,
-                color: Colors.white,
-                size: 28,
-              ),
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+          constraints: const BoxConstraints(maxHeight: 120), // Constrain height
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.surface, AppColors.surface.withOpacity(0.9)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-
-            const SizedBox(width: 16),
-
-            // Workout Info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    workout.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
+            ],
+            border: Border.all(
+              color: AppColors.glassBorder.withOpacity(0.15),
+              width: 0.5,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Category Icon
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [categoryColor, categoryColor.withOpacity(0.8)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    workout.description,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      _buildInfoChip(
-                        Icons.timer,
-                        '${workout.duration} min',
-                        AppColors.primaryGradient,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: categoryColor.withOpacity(0.2),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
                       ),
-                      const SizedBox(width: 8),
-                      _buildInfoChip(
-                        Icons.local_fire_department,
-                        '${workout.caloriesBurned} cal',
-                        AppColors.accentGradient,
-                      ),
-                      const SizedBox(width: 8),
-                      _buildDifficultyChip(workout.difficulty),
                     ],
                   ),
-                ],
-              ),
-            ),
-
-            // Favorite Button
-            Obx(() => GestureDetector(
-                  onTap: () => workoutController.toggleFavorite(workout.id),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: workoutController.favoriteWorkouts
-                              .contains(workout.id)
-                          ? AppColors.accent
-                          : AppColors.surface,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      workoutController.favoriteWorkouts.contains(workout.id)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: workoutController.favoriteWorkouts
-                              .contains(workout.id)
-                          ? Colors.white
-                          : AppColors.textSecondary,
-                      size: 20,
-                    ),
+                  child: Icon(
+                    categoryIcon,
+                    color: Colors.white,
+                    size: 20,
                   ),
-                )),
-          ],
+                ),
+                const SizedBox(width: 12),
+                // Content Section
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Title and Favorite Row
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              workout.title,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textPrimary,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Obx(() => IconButton(
+                                onPressed: () => workoutController
+                                    .toggleFavorite(workout.id),
+                                icon: Icon(
+                                  workoutController.favoriteWorkouts
+                                          .contains(workout.id)
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: workoutController.favoriteWorkouts
+                                          .contains(workout.id)
+                                      ? AppColors.accent
+                                      : AppColors.textSecondary,
+                                  size: 18,
+                                ),
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                tooltip: 'Favorite',
+                              )),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      // Description
+                      Text(
+                        workout.description,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                          height: 1.2,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 6),
+                      // Stats Row
+                      Row(
+                        children: [
+                          _buildCompactInfoChip(
+                            Icons.local_fire_department,
+                            '${workout.caloriesBurned}',
+                            AppColors.accent,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildCompactInfoChip(
+                            Icons.timer,
+                            '${workout.duration}m',
+                            AppColors.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildDifficultyChip(workout.difficulty),
+                          const Spacer(),
+                          // Category Badge
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: categoryColor.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: categoryColor.withOpacity(0.25),
+                                width: 0.5,
+                              ),
+                            ),
+                            child: Text(
+                              workout.category,
+                              style: TextStyle(
+                                color: categoryColor,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildInfoChip(IconData icon, String text, List<Color> gradient) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: gradient),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            color: Colors.white,
-            size: 12,
+  Widget _buildCompactInfoChip(IconData icon, String text, Color color) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: color,
+          size: 16,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: TextStyle(
+            color: AppColors.textPrimary.withOpacity(0.9),
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
           ),
-          const SizedBox(width: 4),
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -416,19 +468,33 @@ class WorkoutListView extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      height: 20,
+      padding: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color, width: 1),
+        color: color.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Text(
-        difficulty,
-        style: TextStyle(
-          color: color,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            difficulty.substring(0, 3), // Show only first 3 letters
+            style: TextStyle(
+              color: color,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
