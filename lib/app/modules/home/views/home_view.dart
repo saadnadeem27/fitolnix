@@ -9,7 +9,7 @@ import '../../../utils/theme.dart';
 class HomeView extends StatelessWidget {
   final homeController = Get.put(HomeController());
 
-  const HomeView({super.key});
+   HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,9 +7,9 @@ import '../../../widgets/custom_widgets.dart';
 import '../../../utils/theme.dart';
 
 class WorkoutDetailView extends StatelessWidget {
-  final workoutController = Get.find<WorkoutController>();
-
   const WorkoutDetailView({super.key});
+
+  WorkoutController get workoutController => Get.find<WorkoutController>();
 
   @override
   Widget build(BuildContext context) {
@@ -498,9 +498,9 @@ class WorkoutDetailView extends StatelessWidget {
 
 class WorkoutTimerSheet extends StatelessWidget {
   final workout;
-  final workoutController = Get.find<WorkoutController>();
-
   WorkoutTimerSheet({super.key, required this.workout});
+
+  WorkoutController get workoutController => Get.find<WorkoutController>();
 
   @override
   Widget build(BuildContext context) {

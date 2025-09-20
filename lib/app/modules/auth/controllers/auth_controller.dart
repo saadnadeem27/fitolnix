@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../data/services/storage_service.dart';
 import '../../../data/models/user.dart';
 import '../../../routes/app_pages.dart';
+import '../views/login_view.dart';
+import '../../home/views/home_view.dart';
 
 class AuthController extends GetxController {
   // Observable variables
@@ -38,26 +40,26 @@ class AuthController extends GetxController {
     });
   }
 
-  @override
-  void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    ageController.dispose();
-    heightController.dispose();
-    weightController.dispose();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   nameController.dispose();
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   confirmPasswordController.dispose();
+  //   ageController.dispose();
+  //   heightController.dispose();
+  //   weightController.dispose();
+  //   super.onClose();
+  // }
 
   void checkFirstTime() {
     // Only check for existing login if user has completed onboarding
     if (!StorageService.isFirstTime && StorageService.onboardingCompleted) {
       // Check if user is logged in
       if (StorageService.userToken != null) {
-        Get.offAllNamed(Routes.HOME);
+        Get.offAll(() => HomeView());
       } else {
-        Get.offAllNamed(Routes.LOGIN);
+        Get.offAll(() => LoginView());
       }
     }
     // If first time or onboarding not completed, stay on current route (splash -> onboarding)
@@ -66,7 +68,7 @@ class AuthController extends GetxController {
   void completeOnboarding() {
     StorageService.isFirstTime = false;
     StorageService.onboardingCompleted = true;
-    Get.offNamed(Routes.LOGIN);
+    Get.off(() => LoginView());
   }
 
   void togglePasswordVisibility() {
@@ -98,14 +100,14 @@ class AuthController extends GetxController {
   }
 
   Future<void> login() async {
-    if (!loginFormKey.currentState!.validate()) return;
+    // if (!loginFormKey.currentState!.validate()) return;
 
     try {
       isLoading.value = true;
-      
+
       // Simulate API call
       await Future.delayed(const Duration(seconds: 2));
-      
+
       // Mock user data
       final user = User(
         id: '1',
@@ -124,7 +126,8 @@ class AuthController extends GetxController {
       StorageService.userToken = 'mock_token_123';
       StorageService.userData = user.toJson();
 
-      Get.offAllNamed(Routes.HOME);
+      // Using direct navigation instead of named routes
+      Get.offAll(() => HomeView());
       Get.snackbar(
         'Welcome!',
         'Successfully logged in',
@@ -161,10 +164,10 @@ class AuthController extends GetxController {
 
     try {
       isLoading.value = true;
-      
+
       // Simulate API call
       await Future.delayed(const Duration(seconds: 3));
-      
+
       final user = User(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: nameController.text,
@@ -182,7 +185,8 @@ class AuthController extends GetxController {
       StorageService.userToken = 'mock_token_${user.id}';
       StorageService.userData = user.toJson();
 
-      Get.offAllNamed(Routes.HOME);
+      // Using direct navigation instead of named routes
+      Get.offAll(() => HomeView());
       Get.snackbar(
         'Welcome to Fitolnix!',
         'Account created successfully',
@@ -206,7 +210,8 @@ class AuthController extends GetxController {
   void logout() {
     StorageService.userToken = null;
     StorageService.userData = null;
-    Get.offAllNamed(Routes.LOGIN);
+    // Using direct navigation instead of named routes
+    Get.offAll(() => LoginView());
   }
 
   // Validators

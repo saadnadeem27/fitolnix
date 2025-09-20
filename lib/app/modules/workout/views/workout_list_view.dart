@@ -6,9 +6,9 @@ import '../../../widgets/custom_widgets.dart';
 import '../../../utils/theme.dart';
 
 class WorkoutListView extends StatelessWidget {
-  final workoutController = Get.put(WorkoutController());
-
   const WorkoutListView({super.key});
+
+  WorkoutController get workoutController => Get.find<WorkoutController>();
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../data/services/storage_service.dart';
 import '../../../data/models/user.dart';
 import '../../../utils/constants.dart';
+import '../../workout/views/workout_list_view.dart';
+import '../../nutrition/views/nutrition_view.dart';
+import '../../progress/views/progress_view.dart';
+import '../../profile/views/profile_view.dart';
 import 'dart:math';
 
 class HomeController extends GetxController {
@@ -192,18 +196,18 @@ class HomeController extends GetxController {
 
   // Quick actions
   void startQuickWorkout() {
-    Get.toNamed('/workout-list');
+    Get.to(() => WorkoutListView());
   }
 
   void trackNutrition() {
-    Get.toNamed('/nutrition');
+    Get.to(() => NutritionView());
   }
 
   void viewProgress() {
-    Get.toNamed('/progress');
+    Get.to(() => ProgressView());
   }
 
   void openProfile() {
-    Get.toNamed('/profile');
+    Get.to(() => ProfileView());
   }
 }

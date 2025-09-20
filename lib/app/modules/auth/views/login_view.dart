@@ -3,11 +3,22 @@ import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 import '../../../widgets/custom_widgets.dart';
 import '../../../utils/theme.dart';
+import '../../home/views/home_view.dart';
+import 'signup_view.dart';
 
 class LoginView extends StatelessWidget {
-  final authController = Get.find<AuthController>();
+  // Using getter instead of top-level field to avoid constant expression errors
+  // Try to find an existing AuthController; if not found, create and register one.
+  AuthController get authController {
+    try {
+      return Get.find<AuthController>();
+    } catch (_) {
+      // Binding might not have been executed (e.g., view pushed without GetPage binding)
+      return Get.put(AuthController());
+    }
+  }
 
-  LoginView({super.key});
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +236,7 @@ class LoginView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed('/signup');
+                        Get.to(() => SignupView());
                       },
                       child: Text(
                         'Sign Up',

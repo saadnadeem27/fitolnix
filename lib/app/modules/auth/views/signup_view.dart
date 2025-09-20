@@ -6,9 +6,15 @@ import '../../../utils/theme.dart';
 import '../../../utils/constants.dart';
 
 class SignupView extends StatelessWidget {
-  final authController = Get.find<AuthController>();
+  late final AuthController authController;
 
-  SignupView({super.key});
+  SignupView({super.key}) {
+    try {
+      authController = Get.find<AuthController>();
+    } catch (_) {
+      authController = Get.put(AuthController());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
